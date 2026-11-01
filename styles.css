@@ -1491,3 +1491,64 @@ body {
 ---
 
 ### 3. `app.js`
+/* ================= PROJECT GITHUB SUBMISSION STYLES ================= */
+.section-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 3.5rem;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.submission-cta-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.tab-badge {
+  background: var(--primary-cyan);
+  color: #030712;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.15rem 0.45rem;
+  border-radius: 999px;
+  margin-left: 0.4rem;
+}
+
+.submission-review-card {
+  background: rgba(13, 20, 39, 0.85);
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.submission-review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.sub-meta {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+}
+
+.sub-actions {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .section-header-flex {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

@@ -1246,3 +1246,189 @@ function escapeHtml(str) {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
 }
+
+// Add this property to DEFAULT_PORTFOLIO_DATA
+  submissions: [
+    {
+      id: "sub-seed-1",
+      authorName: "Ananya Sharma",
+      authorEmail: "ananya.sharma@example.com",
+      githubUrl: "https://github.com/ananya-dev/edge-threat-detector",
+      title: "Edge Threat Detector",
+      tech: "Python, OpenCV, Cloud, FastAPI",
+      demoUrl: "https://edge-detector-demo.vercel.app",
+      desc: "Real-time AI camera edge anomaly and intruder detection for campus networks with low latency.",
+      dateSubmitted: "2026-03-28"
+    }
+  ],
+  bindProjectSubmissions(db);
+  // ============================================================
+// GITHUB PROJECT SUBMISSIONS CONTROLLER
+// ============================================================
+function bindProjectSubmissions(initialDb) {
+  const submitModal = document.getElementById("submit-proj-modal");
+  const openModalBtn = document.getElementById("open-submit-modal-btn");
+  const closeModalBtn = document.getElementById("close-submit-modal");
+  const submitForm = document.getElementById("public-project-submit-form");
+  const submitStatus = document.getElementById("sub-proj-status");
+
+  // Open & Close Modal
+  if (openModalBtn) {
+    openModalBtn.addEventListener("click", () => {
+      submitForm.reset();
+      submitStatus.textContent = "";
+      submitModal.classList.add("open");
+    });
+  }
+
+  if (closeModalBtn) {
+    closeModalBtn.addEventListener("click", () => {
+      submitModal.classList.remove("open");
+    });
+  }
+
+  // Handle Visitor Submission
+  if (submitForm) {
+    submitForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const githubUrl = document.getElementById("sub-github-url").value.trim();
+
+      // GitHub URL Validation regex
+      const ghPattern = /^https?:\/\/(www\.)?github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+\/?$/;
+      if (!ghPattern.test(githubUrl)) {
+        submitStatus.textContent = "Please enter a valid GitHub repository link (e.g. https://github.com/username/project)";
+        submitStatus.className = "status-msg error";
+        return;
+      }
+
+      const db = loadData();
+      if (!db.submissions) db.submissions = [];
+
+      const newSubmission = {
+        id: "sub-" + Date.now(),
+        authorName: document.getElementById("sub-author-name").value.trim(),
+        authorEmail: document.getElementById("sub-author-email").value.trim(),
+        githubUrl: githubUrl,
+        title: document.getElementById("sub-proj-title").value.trim(),
+        tech: document.getElementById("sub-proj-tech").value.trim(),
+        demoUrl: document.getElementById("sub-demo-url").value.trim(),
+        desc: document.getElementById("sub-proj-desc").value.trim(),
+        dateSubmitted: new Date().toISOString().slice(0, 10)
+      };
+
+      db.submissions.unshift(newSubmission);
+      saveData(db);
+
+      submitStatus.textContent = "✓ Project successfully submitted! The owner will review your repository.";
+      submitStatus.className = "status-msg success";
+
+      updateSubmissionBadge(db);
+
+      setTimeout(() => {
+        submitModal.classList.remove("open");
+        submitForm.reset();
+      }, 1500);
+    });
+  }
+
+  // Admin Submissions Management
+  renderAdminSubmissions();
+
+  const clearAllBtn = document.getElementById("btn-clear-all-subs");
+  if (clearAllBtn) {
+    clearAllBtn.addEventListener("click", () => {
+      if (confirm("Are you sure you want to clear all incoming submissions?")) {
+        const db = loadData();
+        db.submissions = [];
+        saveData(db);
+        renderAdminSubmissions();
+      }
+    });
+  }
+}
+
+// Render Admin Submissions List
+function renderAdminSubmissions() {
+  const db = loadData();
+  const list = document.getElementById("admin-submissions-list");
+  if (!list) return;
+
+  updateSubmissionBadge(db);
+
+  if (!db.submissions || db.submissions.length === 0) {
+    list.innerHTML = `<p style="color:var(--text-dim); text-align:center; padding:2rem;">No pending project submissions.</p>`;
+    return;
+  }
+
+  list.innerHTML = db.submissions.map(sub => `
+    <div class="submission-review-card">
+      <div class="submission-review-header">
+        <div>
+          <h5 style="color:#fff; font-size:1.15rem;">${escapeHtml(sub.title)}</h5>
+          <span class="sub-meta">By <strong>${escapeHtml(sub.authorName)}</strong> (${escapeHtml(sub.authorEmail)}) • Submitted on ${sub.dateSubmitted}</span>
+        </div>
+        <a href="${escapeHtml(sub.githubUrl)}" target="_blank" class="btn btn-outline-cyan btn-sm">
+          Visit GitHub ↗
+        </a>
+      </div>
+      <p style="color:var(--text-dim); font-size:0.9rem;">${escapeHtml(sub.desc)}</p>
+      <div style="font-size:0.85rem; color:#cbd5e1;">
+        <strong>Stack:</strong> <span class="tech-tag">${escapeHtml(sub.tech)}</span>
+        ${sub.demoUrl ? ` • <a href="${escapeHtml(sub.demoUrl)}" target="_blank" style="color:var(--primary-cyan)">Live Demo ↗</a>` : ''}
+      </div>
+      <div class="sub-actions">
+        <button class="btn btn-primary-cyan btn-sm" onclick="approveSubmission('${sub.id}')">
+          ✓ Approve &amp; Feature in Projects
+        </button>
+        <button class="btn btn-outline-red btn-sm" onclick="rejectSubmission('${sub.id}')">
+          ✕ Reject / Remove
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// Update badges in Admin Dashboard
+function updateSubmissionBadge(db) {
+  const count = db.submissions ? db.submissions.length : 0;
+  const badge = document.getElementById("badge-sub-count");
+  const statCount = document.getElementById("stat-count-submissions");
+  if (badge) badge.textContent = count;
+  if (statCount) statCount.textContent = count;
+}
+
+// Global Approve Handler (Owner features project directly)
+window.approveSubmission = function(id) {
+  const db = loadData();
+  const sub = db.submissions.find(s => s.id === id);
+  if (!sub) return;
+
+  // Transform submission into official showcase project
+  const newProject = {
+    id: "proj-" + Date.now(),
+    title: sub.title + " (by " + sub.authorName + ")",
+    desc: sub.desc,
+    tech: sub.tech,
+    thumb: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80",
+    github: sub.githubUrl,
+    demo: sub.demoUrl || ""
+  };
+
+  db.projects.push(newProject);
+  // Remove from pending submissions
+  db.submissions = db.submissions.filter(s => s.id !== id);
+
+  saveData(db);
+  renderPublicSite(db);
+  renderAdminSubmissions();
+  alert(`"${sub.title}" has been approved and is now live on your Featured Projects section!`);
+};
+
+// Global Reject Handler
+window.rejectSubmission = function(id) {
+  if (!confirm("Remove this project submission?")) return;
+  const db = loadData();
+  db.submissions = db.submissions.filter(s => s.id !== id);
+  saveData(db);
+  renderAdminSubmissions();
+};
