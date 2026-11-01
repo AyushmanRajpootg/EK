@@ -1,10 +1,12 @@
 /**
- * NEXUS SUITE: State Engine, Compression, CRUD, Theme, & AI Assistant
- * MMMUT PROMPT 2 PIXEL HACKATHON (PS 03)
+ * ============================================================
+ * NEXUS MASTER ENGINE - MMMUT PROMPT 2 PIXEL HACKATHON (PS 03)
+ * OWNER-CONTROLLED DEVELOPER PORTFOLIO & TEAM SHOWCASE
+ * ============================================================
  */
 
 // ============================================================
-// DEFAULT SEED DATA (With requested Abhishek, Ayushman, Shivam, Prasun, SIH, Cloud, etc.)
+// 1. DEFAULT SEED DATA
 // ============================================================
 const DEFAULT_PORTFOLIO_DATA = {
   profile: {
@@ -114,6 +116,19 @@ const DEFAULT_PORTFOLIO_DATA = {
       desc: "Engineered an autonomous, fully owner-controlled developer showcase featuring complete real-time client CRUD and AI chatbot."
     }
   ],
+  submissions: [
+    {
+      id: "sub-seed-1",
+      authorName: "Ananya Sharma",
+      authorEmail: "ananya.sharma@example.com",
+      githubUrl: "https://github.com/ananya-dev/edge-threat-detector",
+      title: "Edge Threat Detector",
+      tech: "Python, OpenCV, Cloud, FastAPI",
+      demoUrl: "https://edge-detector-demo.vercel.app",
+      desc: "Real-time AI camera edge anomaly and intruder detection for campus networks with low latency.",
+      dateSubmitted: "2026-03-28"
+    }
+  ],
   teamCv: {
     heading: "NEXUS Engineering Group - Curriculum Vitae",
     content: "Team NEXUS is a multi-disciplinary software engineering collective based at MMMUT Gorakhpur.\n\nCore Competencies:\n- Full-Stack Web Architecture (HTML5, Vanilla JS, Node.js)\n- Cloud Infrastructure & Scalable Edge Deployments\n- AntiGravity Computing Research & Simulation\n- Generative AI & ChatGPT Pipeline Automation\n\nNotable Track Record:\n- Smart India Hackathon (SIH) National Finalists\n- Prompt 2 Pixel Hackathon PS 03 Developer Portfolio Submission\n\nContact: nexus.team@mmmut.ac.in"
@@ -126,15 +141,15 @@ const DEFAULT_PORTFOLIO_DATA = {
     heroBadge: "AI-Native & Edge Optimized",
     footerText: "Built for MMMUT Prompt 2 Pixel Hackathon (PS 03). Fully Owner-Controlled."
   },
-  // Default master password SHA-256 for 'admin123'
-  authHash: "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9"
+  authHash: "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9" // SHA-256 for 'admin123'
 };
 
 // ============================================================
-// STORAGE & UTILITY CONTROLLERS
+// 2. STORAGE CONTROLLERS
 // ============================================================
 const STORAGE_KEY = "NEXUS_PORTFOLIO_DB_V1";
 
+// Synchronous loader - safe for all button handlers
 function loadData() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -149,17 +164,18 @@ function loadData() {
   }
 }
 
+// Synchronous saver
 function saveData(data) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   } catch (err) {
-    if (err.name === 'QuotaExceededError' || err.code === 22) {
-      alert("Storage limit reached! Please use direct image URLs instead of heavy local images or export your current backup.");
+    if (err.name === "QuotaExceededError" || err.code === 22) {
+      alert("Storage limit reached! Please use image URLs instead of heavy local files or export your current backup.");
     }
   }
 }
 
-// Client-Side Image Resizer/Compressor (prevents QuotaExceededError in LocalStorage)
+// Client-side image compressor (prevents LocalStorage quota crashes)
 function compressImage(file, maxWidth = 600, quality = 0.75) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -168,7 +184,7 @@ function compressImage(file, maxWidth = 600, quality = 0.75) {
       const img = new Image();
       img.src = event.target.result;
       img.onload = () => {
-        const elem = document.createElement('canvas');
+        const elem = document.createElement("canvas");
         let width = img.width;
         let height = img.height;
         if (width > maxWidth) {
@@ -177,9 +193,9 @@ function compressImage(file, maxWidth = 600, quality = 0.75) {
         }
         elem.width = width;
         elem.height = height;
-        const ctx = elem.getContext('2d');
+        const ctx = elem.getContext("2d");
         ctx.drawImage(img, 0, 0, width, height);
-        resolve(elem.toDataURL('image/jpeg', quality));
+        resolve(elem.toDataURL("image/jpeg", quality));
       };
       img.onerror = (err) => reject(err);
     };
@@ -190,46 +206,72 @@ function compressImage(file, maxWidth = 600, quality = 0.75) {
 // SHA-256 for Admin Authentication
 async function sha256(message) {
   const msgBuffer = new TextEncoder().encode(message);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
 }
 
 // ============================================================
-// MAIN APPLICATION RUNTIME
+// 3. VISUAL CYBERPUNK PRELOADER CONTROLLER
 // ============================================================
-document.addEventListener("DOMContentLoaded", () => {
-  let db = loadData();
+function runPreloader(onComplete) {
+  const preloader = document.getElementById("site-preloader");
+  const progressBar = document.getElementById("preloader-progress-bar");
+  const counter = document.getElementById("preloader-counter");
+  const statusMsg = document.getElementById("preloader-status");
 
-  // Canvas particle starfield
-  initBackgroundCanvas();
+  if (!preloader) {
+    if (onComplete) onComplete();
+    return;
+  }
 
-  // Initial Public Render
-  renderPublicSite(db);
-  applyBranding(db.branding);
+  const bootStages = [
+    { at: 20, text: "CONNECTING TO EDGE CLOUD..." },
+    { at: 45, text: "INITIALIZING ANTIGRAVITY KERNEL..." },
+    { at: 70, text: "SYNCHRONIZING TEAM ROSTER..." },
+    { at: 90, text: "DEPLOYING NEURAL UI INTERFACE..." },
+    { at: 100, text: "SYSTEM ONLINE. WELCOME." }
+  ];
 
-  // Bind Navigation & UI Interactions
-  bindNavigation();
-  bindTeamCVModal(db);
-  bindChatbot(db);
-  bindOwnerAdminSuite(db);
+  let progress = 0;
+  const interval = setInterval(() => {
+    progress += Math.floor(Math.random() * 8) + 3;
+    if (progress > 100) progress = 100;
 
-  console.log("%c NEXUS DEV ENGINE LOADED [MMMUT PS 03 READY] ", "background: #00f0ff; color: #000; font-weight: bold;");
-});
+    if (progressBar) progressBar.style.width = progress + "%";
+    if (counter) counter.textContent = progress + "%";
+
+    const currentStage = bootStages.find(s => progress <= s.at);
+    if (currentStage && statusMsg) {
+      statusMsg.textContent = currentStage.text;
+    }
+
+    if (progress >= 100) {
+      clearInterval(interval);
+      setTimeout(() => {
+        preloader.classList.add("fade-out");
+        setTimeout(() => {
+          preloader.remove();
+          if (onComplete) onComplete();
+        }, 600);
+      }, 300);
+    }
+  }, 30);
+}
 
 // ============================================================
-// PUBLIC SITE RENDER ENGINE
+// 4. PUBLIC SITE RENDER ENGINE
 // ============================================================
 function renderPublicSite(data) {
   const { profile, team, skills, projects, achievements, branding } = data;
 
-  // Hero & Profile
+  // Hero Section
   document.getElementById("hero-name-display").textContent = profile.name;
   document.getElementById("hero-title-display").textContent = profile.title;
   document.getElementById("hero-intro-display").textContent = profile.intro;
   document.getElementById("hero-avatar-img").src = profile.avatar || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80";
 
-  // About
+  // About Section
   document.getElementById("about-bio-display").textContent = profile.bio;
   document.getElementById("about-college-display").textContent = profile.college;
   document.getElementById("about-education-display").textContent = profile.education;
@@ -239,14 +281,14 @@ function renderPublicSite(data) {
   const heroSocialWrap = document.getElementById("hero-social-links");
   const contactSocialWrap = document.getElementById("contact-social-links");
   const socialHtml = `
-    ${profile.github ? `<a href="${profile.github}" target="_blank" class="social-pill-link">GitHub ↗</a>` : ''}
-    ${profile.linkedin ? `<a href="${profile.linkedin}" target="_blank" class="social-pill-link">LinkedIn ↗</a>` : ''}
-    ${profile.otherSocial ? `<a href="${profile.otherSocial}" target="_blank" class="social-pill-link">Social ↗</a>` : ''}
+    ${profile.github ? `<a href="${profile.github}" target="_blank" class="social-pill-link">GitHub ↗</a>` : ""}
+    ${profile.linkedin ? `<a href="${profile.linkedin}" target="_blank" class="social-pill-link">LinkedIn ↗</a>` : ""}
+    ${profile.otherSocial ? `<a href="${profile.otherSocial}" target="_blank" class="social-pill-link">Social ↗</a>` : ""}
   `;
   if (heroSocialWrap) heroSocialWrap.innerHTML = socialHtml;
   if (contactSocialWrap) contactSocialWrap.innerHTML = socialHtml;
 
-  // Contact
+  // Contact Details
   document.getElementById("contact-email-display").textContent = profile.email;
 
   // Skills Section Render
@@ -273,7 +315,7 @@ function renderPublicSite(data) {
               <div class="skill-progress" style="width: ${s.proficiency || 85}%"></div>
             </div>
           </div>
-        `).join('')}
+        `).join("")}
       </div>
     `;
     skillsContainer.appendChild(card);
@@ -288,24 +330,24 @@ function renderPublicSite(data) {
     const tags = (p.tech || "").split(",").map(t => t.trim()).filter(Boolean);
     card.innerHTML = `
       <div class="project-thumb-box">
-        <img src="${p.thumb || 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80'}" alt="${escapeHtml(p.title)}" class="project-thumb" />
+        <img src="${p.thumb || "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80"}" alt="${escapeHtml(p.title)}" class="project-thumb" />
       </div>
       <div class="project-card-body">
         <h3 class="project-card-title">${escapeHtml(p.title)}</h3>
         <p class="project-card-desc">${escapeHtml(p.desc)}</p>
         <div class="project-tags">
-          ${tags.map(tag => `<span class="tech-tag">${escapeHtml(tag)}</span>`).join('')}
+          ${tags.map(tag => `<span class="tech-tag">${escapeHtml(tag)}</span>`).join("")}
         </div>
         <div class="project-links">
-          ${p.github ? `<a href="${p.github}" target="_blank" class="btn btn-outline-cyan btn-sm">GitHub</a>` : ''}
-          ${p.demo ? `<a href="${p.demo}" target="_blank" class="btn btn-primary-cyan btn-sm">Live Demo</a>` : ''}
+          ${p.github ? `<a href="${p.github}" target="_blank" class="btn btn-outline-cyan btn-sm">GitHub</a>` : ""}
+          ${p.demo ? `<a href="${p.demo}" target="_blank" class="btn btn-primary-cyan btn-sm">Live Demo</a>` : ""}
         </div>
       </div>
     `;
     projectsContainer.appendChild(card);
   });
 
-  // Team Section Render (Abhishek, Ayushman, Shivam, Prasun, etc.)
+  // Team Section Render (Abhishek, Ayushman, Shivam, Prasun)
   const teamContainer = document.getElementById("team-container");
   teamContainer.innerHTML = "";
   team.forEach(m => {
@@ -314,23 +356,23 @@ function renderPublicSite(data) {
     const skillsList = (m.skills || "").split(",").map(s => s.trim()).filter(Boolean);
     card.innerHTML = `
       <div class="team-photo-wrap">
-        <img src="${m.photo || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=500&q=80'}" alt="${escapeHtml(m.name)}" class="team-photo" />
+        <img src="${m.photo || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=500&q=80"}" alt="${escapeHtml(m.name)}" class="team-photo" />
       </div>
       <h3 class="team-name">${escapeHtml(m.name)}</h3>
       <p class="team-role">${escapeHtml(m.role)}</p>
       <p class="team-bio">${escapeHtml(m.bio)}</p>
       <div class="team-skills-pills">
-        ${skillsList.map(sk => `<span class="tech-tag">${escapeHtml(sk)}</span>`).join('')}
+        ${skillsList.map(sk => `<span class="tech-tag">${escapeHtml(sk)}</span>`).join("")}
       </div>
       <div class="team-socials">
-        ${m.github ? `<a href="${m.github}" target="_blank" class="social-pill-link">GitHub</a>` : ''}
-        ${m.linkedin ? `<a href="${m.linkedin}" target="_blank" class="social-pill-link">LinkedIn</a>` : ''}
+        ${m.github ? `<a href="${m.github}" target="_blank" class="social-pill-link">GitHub</a>` : ""}
+        ${m.linkedin ? `<a href="${m.linkedin}" target="_blank" class="social-pill-link">LinkedIn</a>` : ""}
       </div>
     `;
     teamContainer.appendChild(card);
   });
 
-  // Achievements Render (SIH & Hackathon)
+  // Achievements Render (SIH & Hackathons)
   const achContainer = document.getElementById("achievements-container");
   achContainer.innerHTML = "";
   achievements.forEach(a => {
@@ -350,7 +392,7 @@ function renderPublicSite(data) {
   document.getElementById("footer-brand-title").textContent = branding.brandTitle || "NEXUS TEAM PORTFOLIO";
   document.getElementById("footer-custom-text").textContent = branding.footerText;
   document.getElementById("footer-owner-name").textContent = profile.name;
-  document.getElementById("brand-logo-display").querySelector(".logo-text").innerHTML = `${escapeHtml(branding.brandTitle || 'NEXUS')}<span class="dot">.</span>`;
+  document.getElementById("brand-logo-display").querySelector(".logo-text").innerHTML = `${escapeHtml(branding.brandTitle || "NEXUS")}<span class="dot">.</span>`;
   document.getElementById("hero-badge-text").textContent = branding.heroBadge || "AI-Native & Edge Optimized";
 }
 
@@ -358,20 +400,183 @@ function applyBranding(branding) {
   if (!branding) return;
   const root = document.documentElement;
   if (branding.primaryColor) {
-    root.style.setProperty('--primary-cyan', branding.primaryColor);
-    root.style.setProperty('--primary-cyan-glow', `${branding.primaryColor}55`);
+    root.style.setProperty("--primary-cyan", branding.primaryColor);
+    root.style.setProperty("--primary-cyan-glow", `${branding.primaryColor}55`);
   }
   if (branding.secondaryColor) {
-    root.style.setProperty('--secondary-purple', branding.secondaryColor);
-    root.style.setProperty('--secondary-purple-glow', `${branding.secondaryColor}55`);
+    root.style.setProperty("--secondary-purple", branding.secondaryColor);
+    root.style.setProperty("--secondary-purple-glow", `${branding.secondaryColor}55`);
   }
   if (branding.bgColor) {
-    root.style.setProperty('--bg-dark', branding.bgColor);
+    root.style.setProperty("--bg-dark", branding.bgColor);
   }
 }
 
 // ============================================================
-// TEAM CV / RESUME VIEWER & DOWNLOADER
+// 5. GITHUB PROJECT SUBMISSIONS CONTROLLER
+// ============================================================
+function bindProjectSubmissions(initialDb) {
+  const submitModal = document.getElementById("submit-proj-modal");
+  const openModalBtn = document.getElementById("open-submit-modal-btn");
+  const closeModalBtn = document.getElementById("close-submit-modal");
+  const submitForm = document.getElementById("public-project-submit-form");
+  const submitStatus = document.getElementById("sub-proj-status");
+
+  if (openModalBtn) {
+    openModalBtn.addEventListener("click", () => {
+      submitForm.reset();
+      submitStatus.textContent = "";
+      submitModal.classList.add("open");
+    });
+  }
+
+  if (closeModalBtn) {
+    closeModalBtn.addEventListener("click", () => {
+      submitModal.classList.remove("open");
+    });
+  }
+
+  if (submitForm) {
+    submitForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const githubUrl = document.getElementById("sub-github-url").value.trim();
+
+      const ghPattern = /^https?:\/\/(www\.)?github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+\/?$/;
+      if (!ghPattern.test(githubUrl)) {
+        submitStatus.textContent = "Please enter a valid GitHub repository link (e.g. https://github.com/username/project)";
+        submitStatus.className = "status-msg error";
+        return;
+      }
+
+      const db = loadData();
+      if (!db.submissions) db.submissions = [];
+
+      const newSubmission = {
+        id: "sub-" + Date.now(),
+        authorName: document.getElementById("sub-author-name").value.trim(),
+        authorEmail: document.getElementById("sub-author-email").value.trim(),
+        githubUrl: githubUrl,
+        title: document.getElementById("sub-proj-title").value.trim(),
+        tech: document.getElementById("sub-proj-tech").value.trim(),
+        demoUrl: document.getElementById("sub-demo-url").value.trim(),
+        desc: document.getElementById("sub-proj-desc").value.trim(),
+        dateSubmitted: new Date().toISOString().slice(0, 10)
+      };
+
+      db.submissions.unshift(newSubmission);
+      saveData(db);
+
+      submitStatus.textContent = "✓ Project successfully submitted! The owner will review your repository.";
+      submitStatus.className = "status-msg success";
+
+      updateSubmissionBadge(db);
+
+      setTimeout(() => {
+        submitModal.classList.remove("open");
+        submitForm.reset();
+      }, 1500);
+    });
+  }
+
+  renderAdminSubmissions();
+
+  const clearAllBtn = document.getElementById("btn-clear-all-subs");
+  if (clearAllBtn) {
+    clearAllBtn.addEventListener("click", () => {
+      if (confirm("Are you sure you want to clear all incoming submissions?")) {
+        const db = loadData();
+        db.submissions = [];
+        saveData(db);
+        renderAdminSubmissions();
+      }
+    });
+  }
+}
+
+function renderAdminSubmissions() {
+  const db = loadData();
+  const list = document.getElementById("admin-submissions-list");
+  if (!list) return;
+
+  updateSubmissionBadge(db);
+
+  if (!db.submissions || db.submissions.length === 0) {
+    list.innerHTML = `<p style="color:var(--text-dim); text-align:center; padding:2rem;">No pending project submissions.</p>`;
+    return;
+  }
+
+  list.innerHTML = db.submissions.map(sub => `
+    <div class="submission-review-card">
+      <div class="submission-review-header">
+        <div>
+          <h5 style="color:#fff; font-size:1.15rem;">${escapeHtml(sub.title)}</h5>
+          <span class="sub-meta">By <strong>${escapeHtml(sub.authorName)}</strong> (${escapeHtml(sub.authorEmail)}) • Submitted on ${sub.dateSubmitted}</span>
+        </div>
+        <a href="${escapeHtml(sub.githubUrl)}" target="_blank" class="btn btn-outline-cyan btn-sm">
+          Visit GitHub ↗
+        </a>
+      </div>
+      <p style="color:var(--text-dim); font-size:0.9rem;">${escapeHtml(sub.desc)}</p>
+      <div style="font-size:0.85rem; color:#cbd5e1;">
+        <strong>Stack:</strong> <span class="tech-tag">${escapeHtml(sub.tech)}</span>
+        ${sub.demoUrl ? ` • <a href="${escapeHtml(sub.demoUrl)}" target="_blank" style="color:var(--primary-cyan)">Live Demo ↗</a>` : ""}
+      </div>
+      <div class="sub-actions">
+        <button class="btn btn-primary-cyan btn-sm" onclick="approveSubmission('${sub.id}')">
+          ✓ Approve &amp; Feature in Projects
+        </button>
+        <button class="btn btn-outline-red btn-sm" onclick="rejectSubmission('${sub.id}')">
+          ✕ Reject / Remove
+        </button>
+      </div>
+    </div>
+  `).join("");
+}
+
+function updateSubmissionBadge(db) {
+  const count = db.submissions ? db.submissions.length : 0;
+  const badge = document.getElementById("badge-sub-count");
+  const statCount = document.getElementById("stat-count-submissions");
+  if (badge) badge.textContent = count;
+  if (statCount) statCount.textContent = count;
+}
+
+// Global Approve Handler
+window.approveSubmission = function(id) {
+  const db = loadData();
+  const sub = db.submissions.find(s => s.id === id);
+  if (!sub) return;
+
+  const newProject = {
+    id: "proj-" + Date.now(),
+    title: sub.title + " (by " + sub.authorName + ")",
+    desc: sub.desc,
+    tech: sub.tech,
+    thumb: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80",
+    github: sub.githubUrl,
+    demo: sub.demoUrl || ""
+  };
+
+  db.projects.push(newProject);
+  db.submissions = db.submissions.filter(s => s.id !== id);
+
+  saveData(db);
+  renderPublicSite(db);
+  renderAdminSubmissions();
+  alert(`"${sub.title}" has been approved and is now live on your Featured Projects section!`);
+};
+
+// Global Reject Handler
+window.rejectSubmission = function(id) {
+  if (!confirm("Remove this project submission?")) return;
+  const db = loadData();
+  db.submissions = db.submissions.filter(s => s.id !== id);
+  saveData(db);
+  renderAdminSubmissions();
+};
+
+// ============================================================
+// 6. TEAM CV MODAL & PRINTER
 // ============================================================
 function bindTeamCVModal(data) {
   const modal = document.getElementById("cv-modal");
@@ -392,7 +597,7 @@ function bindTeamCVModal(data) {
         <strong>${escapeHtml(m.name)}</strong> - <span style="color:var(--primary-cyan);">${escapeHtml(m.role)}</span>
         <br><small style="color:var(--text-dim);">${escapeHtml(m.skills)}</small>
       </div>
-    `).join('');
+    `).join("");
 
     modal.classList.add("open");
   }
@@ -405,7 +610,6 @@ function bindTeamCVModal(data) {
   if (closeBtn) closeBtn.addEventListener("click", closeCV);
   if (dismissBtn) dismissBtn.addEventListener("click", closeCV);
 
-  // Trigger Native Clean Print / PDF Generation of CV block
   if (downloadBtn) {
     downloadBtn.addEventListener("click", () => {
       window.print();
@@ -414,7 +618,7 @@ function bindTeamCVModal(data) {
 }
 
 // ============================================================
-// INTERACTIVE AI ASSISTANT CHATBOT
+// 7. INTERACTIVE AI ASSISTANT CHATBOT
 // ============================================================
 function bindChatbot(data) {
   const toggleBtn = document.getElementById("chatbot-toggle-btn");
@@ -437,7 +641,6 @@ function bindChatbot(data) {
     chatWindow.classList.add("hidden");
   });
 
-  // Handle Quick Chips
   document.querySelectorAll(".chip-query").forEach(chip => {
     chip.addEventListener("click", () => {
       const q = chip.getAttribute("data-query");
@@ -451,16 +654,14 @@ function bindChatbot(data) {
     const query = input.value.trim();
     if (!query) return;
 
-    // Append User Message
     appendMessage(query, "user-msg");
     input.value = "";
 
-    // Generate Contextual AI Response
     setTimeout(() => {
       const reply = generateAiAnswer(query, loadData());
       appendMessage(reply, "ai-msg");
       msgsBox.scrollTop = msgsBox.scrollHeight;
-    }, 450);
+    }, 400);
   });
 
   function appendMessage(text, type) {
@@ -481,7 +682,7 @@ function bindChatbot(data) {
     }
     if (q.includes("abhishek")) {
       const m = team.find(t => t.name.toLowerCase().includes("abhishek"));
-      return m ? `${m.name} is our ${m.role}. ${m.bio} Specializes in: ${m.skills}.` : "Abhishek is a lead engineer in Team NEXUS.";
+      return m ? `${m.name} is our ${m.role}. ${m.bio} Specializes in: ${m.skills}.` : "Abhishek is our Full-Stack & Systems Lead.";
     }
     if (q.includes("ayushman")) {
       const m = team.find(t => t.name.toLowerCase().includes("ayushman"));
@@ -516,7 +717,7 @@ function bindChatbot(data) {
 }
 
 // ============================================================
-// OWNER ADMIN SUITE & CRUD CONTROLLER
+// 8. OWNER ADMIN SUITE & CRUD CONTROLLER
 // ============================================================
 function bindOwnerAdminSuite(initialDb) {
   const loginModal = document.getElementById("login-modal");
@@ -529,7 +730,6 @@ function bindOwnerAdminSuite(initialDb) {
 
   let isAuthenticated = sessionStorage.getItem("NEXUS_OWNER_AUTH") === "true";
 
-  // Check initial state
   if (isAuthenticated) {
     document.getElementById("admin-btn-text").textContent = "Admin Suite (Active)";
   }
@@ -546,7 +746,6 @@ function bindOwnerAdminSuite(initialDb) {
     loginModal.classList.remove("open");
   });
 
-  // Login handler
   loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     loginError.textContent = "";
@@ -578,28 +777,28 @@ function bindOwnerAdminSuite(initialDb) {
     dashboardModal.classList.add("open");
   }
 
-  // Admin Tab Navigation
   document.querySelectorAll(".admin-tab-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       document.querySelectorAll(".admin-tab-btn").forEach(b => b.classList.remove("active"));
       document.querySelectorAll(".admin-tab-pane").forEach(p => p.classList.remove("active"));
       btn.classList.add("active");
       const target = btn.getAttribute("data-tab");
-      document.getElementById(target).classList.add("active");
+      const pane = document.getElementById(target);
+      if (pane) pane.classList.add("active");
     });
   });
 
-  // Populate Admin Forms & Tables
   function populateAdminForms() {
     const db = loadData();
 
-    // Stats
     document.getElementById("stat-count-team").textContent = db.team.length;
     document.getElementById("stat-count-projects").textContent = db.projects.length;
     document.getElementById("stat-count-skills").textContent = db.skills.length;
     document.getElementById("stat-count-achievements").textContent = db.achievements.length;
+    if (document.getElementById("stat-count-submissions")) {
+      document.getElementById("stat-count-submissions").textContent = db.submissions ? db.submissions.length : 0;
+    }
 
-    // Profile Tab
     document.getElementById("edit-profile-name").value = db.profile.name;
     document.getElementById("edit-profile-title").value = db.profile.title;
     document.getElementById("edit-profile-intro").value = db.profile.intro;
@@ -614,17 +813,15 @@ function bindOwnerAdminSuite(initialDb) {
     document.getElementById("edit-hero-avatar-url").value = db.profile.avatar;
     document.getElementById("edit-hero-avatar-preview").src = db.profile.avatar;
 
-    // Render CRUD lists
     renderAdminTeamList(db);
     renderAdminProjectsList(db);
     renderAdminSkillsList(db);
     renderAdminAchievementsList(db);
+    renderAdminSubmissions();
 
-    // Team CV Tab
     document.getElementById("edit-cv-heading").value = db.teamCv.heading;
     document.getElementById("edit-cv-text").value = db.teamCv.content;
 
-    // Appearance
     document.getElementById("edit-primary-color").value = db.branding.primaryColor || "#00f0ff";
     document.getElementById("edit-secondary-color").value = db.branding.secondaryColor || "#8a2be2";
     document.getElementById("edit-bg-color").value = db.branding.bgColor || "#050814";
@@ -633,7 +830,7 @@ function bindOwnerAdminSuite(initialDb) {
     document.getElementById("edit-footer-text").value = db.branding.footerText;
   }
 
-  // --- SAVE PROFILE & HERO AVATAR ---
+  // Profile Form & Hero Avatar Upload
   const heroFileInput = document.getElementById("edit-hero-avatar-file");
   heroFileInput.addEventListener("change", async (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -664,7 +861,7 @@ function bindOwnerAdminSuite(initialDb) {
     alert("Profile and Hero Avatar successfully updated!");
   });
 
-  // --- TEAM CRUD HANDLERS ---
+  // Team Form & Photo Upload
   const memberDrawer = document.getElementById("member-editor-card");
   const memberForm = document.getElementById("member-editor-form");
   const memPhotoFile = document.getElementById("mem-photo-file");
@@ -765,7 +962,7 @@ function bindOwnerAdminSuite(initialDb) {
     populateAdminForms();
   };
 
-  // --- PROJECTS CRUD ---
+  // Projects CRUD
   const projectDrawer = document.getElementById("project-editor-card");
   const projectForm = document.getElementById("project-editor-form");
   const projPhotoFile = document.getElementById("proj-photo-file");
@@ -864,7 +1061,7 @@ function bindOwnerAdminSuite(initialDb) {
     populateAdminForms();
   };
 
-  // --- SKILLS CRUD ---
+  // Skills CRUD
   const skillDrawer = document.getElementById("skill-editor-card");
   const skillForm = document.getElementById("skill-editor-form");
 
@@ -944,7 +1141,7 @@ function bindOwnerAdminSuite(initialDb) {
     populateAdminForms();
   };
 
-  // --- ACHIEVEMENTS CRUD ---
+  // Achievements CRUD
   const achDrawer = document.getElementById("achievement-editor-card");
   const achForm = document.getElementById("achievement-editor-form");
 
@@ -1024,7 +1221,7 @@ function bindOwnerAdminSuite(initialDb) {
     populateAdminForms();
   };
 
-  // --- SAVE TEAM CV TAB ---
+  // Team CV Tab
   document.getElementById("admin-team-cv-form").addEventListener("submit", (e) => {
     e.preventDefault();
     const db = loadData();
@@ -1034,7 +1231,7 @@ function bindOwnerAdminSuite(initialDb) {
     alert("Team CV information saved! It can now be viewed on the home page.");
   });
 
-  // --- SAVE APPEARANCE & BRANDING ---
+  // Appearance & Branding Form
   document.getElementById("admin-appearance-form").addEventListener("submit", (e) => {
     e.preventDefault();
     const db = loadData();
@@ -1051,7 +1248,7 @@ function bindOwnerAdminSuite(initialDb) {
     alert("Branding and theme customized successfully!");
   });
 
-  // --- SECURITY / PASSWORD CHANGE ---
+  // Security Form
   document.getElementById("admin-security-form").addEventListener("submit", async (e) => {
     e.preventDefault();
     const currentPw = document.getElementById("sec-current-pw").value;
@@ -1080,12 +1277,12 @@ function bindOwnerAdminSuite(initialDb) {
     document.getElementById("admin-security-form").reset();
   });
 
-  // --- BACKUP EXPORT & IMPORT ---
+  // Export & Import
   document.getElementById("admin-export-btn").addEventListener("click", () => {
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(loadData(), null, 2));
     const dlAnchor = document.createElement("a");
     dlAnchor.setAttribute("href", dataStr);
-    dlAnchor.setAttribute("download", `nexus_portfolio_backup_${new Date().toISOString().slice(0,10)}.json`);
+    dlAnchor.setAttribute("download", `nexus_portfolio_backup_${new Date().toISOString().slice(0, 10)}.json`);
     dlAnchor.click();
   });
 
@@ -1128,49 +1325,53 @@ function bindOwnerAdminSuite(initialDb) {
 }
 
 // ============================================================
-// NAVIGATION & CONTACT FORM
+// 9. NAVIGATION & CONTACT FORM
 // ============================================================
 function bindNavigation() {
   const mobileToggle = document.getElementById("mobile-toggle");
   const navMenu = document.getElementById("nav-menu");
 
-  mobileToggle.addEventListener("click", () => {
-    navMenu.classList.toggle("mobile-open");
-  });
+  if (mobileToggle) {
+    mobileToggle.addEventListener("click", () => {
+      navMenu.classList.toggle("mobile-open");
+    });
+  }
 
   document.querySelectorAll(".nav-link").forEach(link => {
     link.addEventListener("click", () => {
-      navMenu.classList.remove("mobile-open");
+      if (navMenu) navMenu.classList.remove("mobile-open");
       document.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"));
       link.classList.add("active");
     });
   });
 
-  // Contact form submission simulator
   const contactForm = document.getElementById("public-contact-form");
   const contactStatus = document.getElementById("contact-status-msg");
 
-  contactForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const btn = document.getElementById("contact-submit-btn");
-    btn.disabled = true;
-    btn.querySelector("span").textContent = "Transmitting...";
+  if (contactForm) {
+    contactForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const btn = document.getElementById("contact-submit-btn");
+      btn.disabled = true;
+      btn.querySelector("span").textContent = "Transmitting...";
 
-    setTimeout(() => {
-      contactStatus.textContent = "Thank you! Your message has been logged successfully. The team will get back to you shortly.";
-      contactStatus.className = "status-msg success";
-      contactForm.reset();
-      btn.disabled = false;
-      btn.querySelector("span").textContent = "Send Message";
-    }, 800);
-  });
+      setTimeout(() => {
+        contactStatus.textContent = "Thank you! Your message has been logged successfully. The team will get back to you shortly.";
+        contactStatus.className = "status-msg success";
+        contactForm.reset();
+        btn.disabled = false;
+        btn.querySelector("span").textContent = "Send Message";
+      }, 700);
+    });
+  }
 }
 
 // ============================================================
-// DYNAMIC PARTICLE BACKGROUND (CANVAS)
+// 10. DYNAMIC PARTICLE BACKGROUND (CANVAS)
 // ============================================================
 function initBackgroundCanvas() {
   const canvas = document.getElementById("bg-canvas");
+  if (!canvas) return;
   const ctx = canvas.getContext("2d");
   let particles = [];
   let width = (canvas.width = window.innerWidth);
@@ -1227,7 +1428,7 @@ function initBackgroundCanvas() {
           ctx.strokeStyle = `rgba(0, 240, 255, ${0.12 * (1 - dist / 110)})`;
           ctx.lineWidth = 0.6;
           ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.lineTo(particles[i].y, particles[i].y);
           ctx.stroke();
         }
       }
@@ -1247,232 +1448,46 @@ function escapeHtml(str) {
     .replace(/'/g, "&#039;");
 }
 
-// Add this property to DEFAULT_PORTFOLIO_DATA
-  submissions: [
-    {
-      id: "sub-seed-1",
-      authorName: "Ananya Sharma",
-      authorEmail: "ananya.sharma@example.com",
-      githubUrl: "https://github.com/ananya-dev/edge-threat-detector",
-      title: "Edge Threat Detector",
-      tech: "Python, OpenCV, Cloud, FastAPI",
-      demoUrl: "https://edge-detector-demo.vercel.app",
-      desc: "Real-time AI camera edge anomaly and intruder detection for campus networks with low latency.",
-      dateSubmitted: "2026-03-28"
-    }
-  ],
-  bindProjectSubmissions(db);
-  // ============================================================
-// GITHUB PROJECT SUBMISSIONS CONTROLLER
 // ============================================================
-function bindProjectSubmissions(initialDb) {
-  const submitModal = document.getElementById("submit-proj-modal");
-  const openModalBtn = document.getElementById("open-submit-modal-btn");
-  const closeModalBtn = document.getElementById("close-submit-modal");
-  const submitForm = document.getElementById("public-project-submit-form");
-  const submitStatus = document.getElementById("sub-proj-status");
-
-  // Open & Close Modal
-  if (openModalBtn) {
-    openModalBtn.addEventListener("click", () => {
-      submitForm.reset();
-      submitStatus.textContent = "";
-      submitModal.classList.add("open");
-    });
-  }
-
-  if (closeModalBtn) {
-    closeModalBtn.addEventListener("click", () => {
-      submitModal.classList.remove("open");
-    });
-  }
-
-  // Handle Visitor Submission
-  if (submitForm) {
-    submitForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const githubUrl = document.getElementById("sub-github-url").value.trim();
-
-      // GitHub URL Validation regex
-      const ghPattern = /^https?:\/\/(www\.)?github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+\/?$/;
-      if (!ghPattern.test(githubUrl)) {
-        submitStatus.textContent = "Please enter a valid GitHub repository link (e.g. https://github.com/username/project)";
-        submitStatus.className = "status-msg error";
-        return;
-      }
-
-      const db = loadData();
-      if (!db.submissions) db.submissions = [];
-
-      const newSubmission = {
-        id: "sub-" + Date.now(),
-        authorName: document.getElementById("sub-author-name").value.trim(),
-        authorEmail: document.getElementById("sub-author-email").value.trim(),
-        githubUrl: githubUrl,
-        title: document.getElementById("sub-proj-title").value.trim(),
-        tech: document.getElementById("sub-proj-tech").value.trim(),
-        demoUrl: document.getElementById("sub-demo-url").value.trim(),
-        desc: document.getElementById("sub-proj-desc").value.trim(),
-        dateSubmitted: new Date().toISOString().slice(0, 10)
-      };
-
-      db.submissions.unshift(newSubmission);
-      saveData(db);
-
-      submitStatus.textContent = "✓ Project successfully submitted! The owner will review your repository.";
-      submitStatus.className = "status-msg success";
-
-      updateSubmissionBadge(db);
-
-      setTimeout(() => {
-        submitModal.classList.remove("open");
-        submitForm.reset();
-      }, 1500);
-    });
-  }
-
-  // Admin Submissions Management
-  renderAdminSubmissions();
-
-  const clearAllBtn = document.getElementById("btn-clear-all-subs");
-  if (clearAllBtn) {
-    clearAllBtn.addEventListener("click", () => {
-      if (confirm("Are you sure you want to clear all incoming submissions?")) {
-        const db = loadData();
-        db.submissions = [];
-        saveData(db);
-        renderAdminSubmissions();
-      }
-    });
-  }
-}
-
-// Render Admin Submissions List
-function renderAdminSubmissions() {
-  const db = loadData();
-  const list = document.getElementById("admin-submissions-list");
-  if (!list) return;
-
-  updateSubmissionBadge(db);
-
-  if (!db.submissions || db.submissions.length === 0) {
-    list.innerHTML = `<p style="color:var(--text-dim); text-align:center; padding:2rem;">No pending project submissions.</p>`;
-    return;
-  }
-
-  list.innerHTML = db.submissions.map(sub => `
-    <div class="submission-review-card">
-      <div class="submission-review-header">
-        <div>
-          <h5 style="color:#fff; font-size:1.15rem;">${escapeHtml(sub.title)}</h5>
-          <span class="sub-meta">By <strong>${escapeHtml(sub.authorName)}</strong> (${escapeHtml(sub.authorEmail)}) • Submitted on ${sub.dateSubmitted}</span>
-        </div>
-        <a href="${escapeHtml(sub.githubUrl)}" target="_blank" class="btn btn-outline-cyan btn-sm">
-          Visit GitHub ↗
-        </a>
-      </div>
-      <p style="color:var(--text-dim); font-size:0.9rem;">${escapeHtml(sub.desc)}</p>
-      <div style="font-size:0.85rem; color:#cbd5e1;">
-        <strong>Stack:</strong> <span class="tech-tag">${escapeHtml(sub.tech)}</span>
-        ${sub.demoUrl ? ` • <a href="${escapeHtml(sub.demoUrl)}" target="_blank" style="color:var(--primary-cyan)">Live Demo ↗</a>` : ''}
-      </div>
-      <div class="sub-actions">
-        <button class="btn btn-primary-cyan btn-sm" onclick="approveSubmission('${sub.id}')">
-          ✓ Approve &amp; Feature in Projects
-        </button>
-        <button class="btn btn-outline-red btn-sm" onclick="rejectSubmission('${sub.id}')">
-          ✕ Reject / Remove
-        </button>
-      </div>
-    </div>
-  `).join('');
-}
-
-// Update badges in Admin Dashboard
-function updateSubmissionBadge(db) {
-  const count = db.submissions ? db.submissions.length : 0;
-  const badge = document.getElementById("badge-sub-count");
-  const statCount = document.getElementById("stat-count-submissions");
-  if (badge) badge.textContent = count;
-  if (statCount) statCount.textContent = count;
-}
-
-// Global Approve Handler (Owner features project directly)
-window.approveSubmission = function(id) {
-  const db = loadData();
-  const sub = db.submissions.find(s => s.id === id);
-  if (!sub) return;
-
-  // Transform submission into official showcase project
-  const newProject = {
-    id: "proj-" + Date.now(),
-    title: sub.title + " (by " + sub.authorName + ")",
-    desc: sub.desc,
-    tech: sub.tech,
-    thumb: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80",
-    github: sub.githubUrl,
-    demo: sub.demoUrl || ""
-  };
-
-  db.projects.push(newProject);
-  // Remove from pending submissions
-  db.submissions = db.submissions.filter(s => s.id !== id);
-
-  saveData(db);
-  renderPublicSite(db);
-  renderAdminSubmissions();
-  alert(`"${sub.title}" has been approved and is now live on your Featured Projects section!`);
-};
-
-// Global Reject Handler
-window.rejectSubmission = function(id) {
-  if (!confirm("Remove this project submission?")) return;
-  const db = loadData();
-  db.submissions = db.submissions.filter(s => s.id !== id);
-  saveData(db);
-  renderAdminSubmissions();
-};
-// Function to load data: checks localStorage first, then falls back to data.json
+// 11. INITIAL APP BOOTSTRAPPER (WITH GITHUB data.json SYNC)
+// ============================================================
 async function initApp() {
-  let db = null;
-  const localData = localStorage.getItem(STORAGE_KEY);
-
-  if (localData) {
-    try {
-      db = JSON.parse(localData);
-    } catch (e) {
-      console.error("Local data corrupted", e);
-    }
-  }
-
-  // If no local data exists (like for judges or other devices), fetch data.json from GitHub
-  if (!db) {
+  // If user opens on another phone/device where localStorage is empty,
+  // fetch data.json directly from your GitHub repository:
+  if (!localStorage.getItem(STORAGE_KEY)) {
     try {
       const response = await fetch("./data.json");
       if (response.ok) {
-        db = await response.json();
+        const githubData = await response.json();
+        saveData(githubData);
       }
     } catch (err) {
-      console.log("data.json not found, falling back to defaults", err);
+      console.log("data.json not found, using default data", err);
     }
   }
 
-  // If still null, use default seed data
-  if (!db) {
-    db = JSON.parse(JSON.stringify(DEFAULT_PORTFOLIO_DATA));
+  // Retrieve current database
+  const db = loadData();
+
+  // Run initial visual cyber preloader
+  if (typeof runPreloader === "function") {
+    runPreloader();
   }
 
-  // Render site
+  // Render Public Website
   initBackgroundCanvas();
   renderPublicSite(db);
   applyBranding(db.branding);
+
+  // Initialize interactive features
   bindNavigation();
   bindTeamCVModal(db);
   bindChatbot(db);
   bindOwnerAdminSuite(db);
-  if (typeof bindProjectSubmissions === "function") {
-    bindProjectSubmissions(db);
-  }
+  bindProjectSubmissions(db);
+
+  console.log("%c NEXUS DEV ENGINE ONLINE [ALL MODULES LOADED] ", "background: #00f0ff; color: #000; font-weight: bold;");
 }
 
+// Start Application on Page Load
 document.addEventListener("DOMContentLoaded", initApp);
