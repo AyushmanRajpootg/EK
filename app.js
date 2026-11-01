@@ -356,7 +356,7 @@ function renderPublicSite(data) {
     const skillsList = (m.skills || "").split(",").map(s => s.trim()).filter(Boolean);
     card.innerHTML = `
       <div class="team-photo-wrap">
-        <img src="${m.photo || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=500&q=80"}" alt="${escapeHtml(m.name)}" class="team-photo" />
+        <img src="${m.photo ||" c:\Users\ayush\OneDrive\Pictures\WhatsApp Image 2026-11-01 at 3.04.03 PM.jpeg"}" alt="${escapeHtml(m.name)}" class="team-photo" />
       </div>
       <h3 class="team-name">${escapeHtml(m.name)}</h3>
       <p class="team-role">${escapeHtml(m.role)}</p>
@@ -1486,7 +1486,7 @@ async function initApp() {
   bindOwnerAdminSuite(db);
   bindProjectSubmissions(db);
 
-  console.log("%c NEXUS DEV ENGINE ONLINE [ALL MODULES LOADED] ", "background: #00f0ff; color: #000; font-weight: bold;");
+  console.log("%c NEXORA DEV ENGINE ONLINE [ALL MODULES LOADED] ", "background: #00f0ff; color: #000; font-weight: bold;");
 }
 
 // Start Application on Page Load
