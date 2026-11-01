@@ -250,28 +250,6 @@
     </section>
   </main>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="container footer-content">
-      <div class="footer-brand">
-        <span class="logo-glyph">&lt;N/&gt;</span>
-        <span id="footer-brand-title">NEXUS TEAM PORTFOLIO</span>
-        <p id="footer-custom-text">Built for MMMUT Prompt 2 Pixel Hackathon (PS 03). Fully Owner-Controlled.</p>
-      </div>
-      <div class="footer-links">
-        <a href="#hero">Top</a>
-        <a href="#about">About</a>
-        <a href="#skills">Skills</a>
-        <a href="#projects">Projects</a>
-        <a href="#team">Team</a>
-        <a href="#contact">Contact</a>
-      </div>
-      <div class="footer-copy">
-        &copy; <span id="current-year">2026</span> <span id="footer-owner-name">Team NEXUS</span>. All rights reserved.
-      </div>
-    </div>
-  </footer>
-
   <!-- ======================================================== -->
   <!-- MODAL 1: TEAM CV / RESUME MODAL (VIEW, EDIT & DOWNLOAD)  -->
   <!-- ======================================================== -->
@@ -818,4 +796,125 @@
   <script src="app.js"></script>
 </body>
 </html>
-```
+<!-- PROJECTS SECTION -->
+    <section class="section" id="projects">
+      <div class="container">
+        <div class="section-header-flex">
+          <div>
+            <span class="section-tag">// SHOWCASE &amp; BUILDS</span>
+            <h2 class="section-title">Featured Projects</h2>
+            <p class="section-subtitle">Real-world systems, hackathon winners, and intelligent applications.</p>
+          </div>
+          <!-- GITHUB PROJECT SUBMISSION CTA -->
+          <div class="submission-cta-wrap">
+            <button id="open-submit-modal-btn" class="btn btn-outline-cyan">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+              <span>Submit Your Project (GitHub)</span>
+            </button>
+          </div>
+        </div>
+        <div class="projects-grid" id="projects-container">
+          <!-- Dynamically populated by app.js -->
+        </div>
+      </div>
+    </section>
+    <!-- ======================================================== -->
+  <!-- MODAL: SUBMIT PROJECT VIA GITHUB (VISITOR FACING)        -->
+  <!-- ======================================================== -->
+  <div id="submit-proj-modal" class="modal-backdrop">
+    <div class="modal-container glass-card" style="max-width: 620px;">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-tag">OPEN COLLABORATION // SHOWCASE WITH US</span>
+          <h3>Submit Your Project via GitHub</h3>
+        </div>
+        <button class="modal-close" id="close-submit-modal">&times;</button>
+      </div>
+
+      <form id="public-project-submit-form" class="modal-body">
+        <p class="section-subtitle" style="margin-bottom: 1.25rem; font-size: 0.9rem;">
+          Built something awesome? Enter your GitHub repository details below. The owner will review and feature approved projects in the showcase!
+        </p>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="sub-author-name">Your Full Name</label>
+            <input type="text" id="sub-author-name" class="cyber-input" placeholder="e.g. Rahul Sharma" required />
+          </div>
+          <div class="form-group">
+            <label for="sub-author-email">Your Contact Email</label>
+            <input type="email" id="sub-author-email" class="cyber-input" placeholder="e.g. rahul@example.com" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="sub-github-url">GitHub Repository URL *</label>
+          <input type="url" id="sub-github-url" class="cyber-input" placeholder="https://github.com/username/project-repo" pattern="https?://github\.com/.+/.+" required />
+          <small style="color: var(--text-dim); font-size: 0.76rem;">Must be a valid GitHub repo link (e.g., https://github.com/user/repo)</small>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="sub-proj-title">Project Title</label>
+            <input type="text" id="sub-proj-title" class="cyber-input" placeholder="e.g. Autonomous Edge Drone" required />
+          </div>
+          <div class="form-group">
+            <label for="sub-proj-tech">Tech Stack (comma-separated)</label>
+            <input type="text" id="sub-proj-tech" class="cyber-input" placeholder="React, Python, Cloud, Docker" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="sub-demo-url">Live Demo / Deployment Link (Optional)</label>
+          <input type="url" id="sub-demo-url" class="cyber-input" placeholder="https://myproject.vercel.app" />
+        </div>
+
+        <div class="form-group">
+          <label for="sub-proj-desc">Project Description &amp; Pitch</label>
+          <textarea id="sub-proj-desc" rows="3" class="cyber-input" placeholder="Explain what problem your project solves and its key features..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary-cyan w-full" id="submit-proj-btn">
+          <span>Submit Project to Owner</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+        </button>
+        <p id="sub-proj-status" class="status-msg"></p>
+      </form>
+    </div>
+  </div>
+  <button class="admin-tab-btn" data-tab="tab-submissions">📥 Submissions <span id="badge-sub-count" class="tab-badge">0</span></button>
+  <button class="admin-tab-btn" data-tab="tab-submissions">📥 Submissions <span id="badge-sub-count" class="tab-badge">0</span></button>
+  <!-- TAB: GITHUB PROJECT SUBMISSIONS REVIEW -->
+          <div class="admin-tab-pane" id="tab-submissions">
+            <div class="pane-header-action">
+              <h4 class="pane-title">Incoming Community Submissions via GitHub</h4>
+              <button class="btn btn-outline-red btn-sm" id="btn-clear-all-subs">Clear All Submissions</button>
+            </div>
+            <p class="section-subtitle mb-3">Review projects submitted by visitors. Click <strong>"Approve &amp; Feature"</strong> to instantly publish it into your public Featured Projects gallery.</p>
+            <div class="admin-crud-list" id="admin-submissions-list">
+              <!-- Dynamically populated by app.js -->
+            </div>
+          </div>
+
+          
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <span class="logo-glyph">&lt;N/&gt;</span>
+        <span id="footer-brand-title">NEXUS TEAM PORTFOLIO</span>
+        <p id="footer-custom-text">Built for MMMUT Prompt 2 Pixel Hackathon (PS 03). Fully Owner-Controlled.</p>
+      </div>
+      <div class="footer-links">
+        <a href="#hero">Top</a>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#team">Team</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="footer-copy">
+        &copy; <span id="current-year">2026</span> <span id="footer-owner-name">Team NEXUS</span>. All rights reserved.
+      </div>
+    </div>
+  </footer>         
