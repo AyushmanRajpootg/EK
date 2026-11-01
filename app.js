@@ -1432,3 +1432,47 @@ window.rejectSubmission = function(id) {
   saveData(db);
   renderAdminSubmissions();
 };
+// Function to load data: checks localStorage first, then falls back to data.json
+async function initApp() {
+  let db = null;
+  const localData = localStorage.getItem(STORAGE_KEY);
+
+  if (localData) {
+    try {
+      db = JSON.parse(localData);
+    } catch (e) {
+      console.error("Local data corrupted", e);
+    }
+  }
+
+  // If no local data exists (like for judges or other devices), fetch data.json from GitHub
+  if (!db) {
+    try {
+      const response = await fetch("./data.json");
+      if (response.ok) {
+        db = await response.json();
+      }
+    } catch (err) {
+      console.log("data.json not found, falling back to defaults", err);
+    }
+  }
+
+  // If still null, use default seed data
+  if (!db) {
+    db = JSON.parse(JSON.stringify(DEFAULT_PORTFOLIO_DATA));
+  }
+
+  // Render site
+  initBackgroundCanvas();
+  renderPublicSite(db);
+  applyBranding(db.branding);
+  bindNavigation();
+  bindTeamCVModal(db);
+  bindChatbot(db);
+  bindOwnerAdminSuite(db);
+  if (typeof bindProjectSubmissions === "function") {
+    bindProjectSubmissions(db);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", initApp);
