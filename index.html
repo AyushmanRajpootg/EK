@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="site-title-tag">NEXUS // Developer Portfolio & Team Showcase</title>
+  <meta name="description" content="Official MMMUT Hackathon PS 03 Team Showcase" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-theme="cyberpunk">
+  <!-- Dynamic Particle Canvas Background -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- TOP NAVIGATION -->
+  <header class="header" id="navbar">
+    <div class="nav-container">
+      <a href="#hero" class="brand-logo" id="brand-logo-display">
+        <span class="logo-glyph">&lt;N/&gt;</span>
+        <span class="logo-text" id="logo-text">NEXUS<span class="dot">.</span>DEV</span>
+      </a>
+
+      <nav class="nav-links" id="nav-menu">
+        <a href="#hero" class="nav-link active">Home</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#skills" class="nav-link">Skills</a>
+        <a href="#projects" class="nav-link">Projects</a>
+        <a href="#team" class="nav-link">Team</a>
+        <a href="#achievements" class="nav-link">Achievements</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button id="open-cv-modal-btn" class="btn btn-outline-cyan">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          Team CV
+        </button>
+        <button id="open-login-btn" class="btn btn-glow-purple" title="Owner Administration">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <span id="admin-btn-text">Owner Portal</span>
+        </button>
+        <button class="hamburger-btn" id="mobile-toggle" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN PUBLIC CONTENT -->
+  <main>
+    <!-- HERO SECTION -->
+    <section class="section hero-section" id="hero">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <div class="badge-pill">
+            <span class="pulse-indicator"></span>
+            <span id="hero-badge-text">AI-Native &amp; Edge Optimized</span>
+          </div>
+          <h1 class="hero-title">
+            Hi, We are <span class="gradient-text" id="hero-name-display">Team NEXUS</span>
+          </h1>
+          <h2 class="hero-subtitle" id="hero-title-display">
+            Full-Stack Software Architects &amp; AI Engineers
+          </h2>
+          <p class="hero-description" id="hero-intro-display">
+            Building next-generation intelligent applications, high-performance distributed systems, and cutting-edge digital experiences for hackathons and real-world impact.
+          </p>
+          <div class="hero-cta-group">
+            <a href="#projects" class="btn btn-primary-cyan">Explore Projects</a>
+            <a href="#contact" class="btn btn-outline-purple">Contact Team</a>
+          </div>
+          <div class="social-pills" id="hero-social-links">
+            <!-- Injected by app.js -->
+          </div>
+        </div>
+
+        <div class="hero-media-wrapper">
+          <div class="avatar-cyber-frame">
+            <div class="cyber-glow-ring"></div>
+            <img id="hero-avatar-img" src="" alt="Team Leader / Hero Avatar" class="hero-avatar-image" />
+            <div class="cyber-badge-stat">
+              <span class="stat-number">100%</span>
+              <span class="stat-lbl">Uptime &amp; Innovation</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section class="section" id="about">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">// IDENTITY &amp; CORE</span>
+          <h2 class="section-title">About Our Team</h2>
+          <p class="section-subtitle">Who we are, what we build, and how we work together.</p>
+        </div>
+
+        <div class="about-grid">
+          <div class="glass-card about-card-main">
+            <h3>Our Journey</h3>
+            <p id="about-bio-display" class="readable-text">
+              We are a team of undergraduate engineers and passionate creators who love turning ideas into real software. We participate in top hackathons, design full-stack cloud applications, and experiment with the latest AI frameworks. We keep things clean, robust, and always deliver on time.
+            </p>
+            <div class="about-info-chips">
+              <div class="info-chip">
+                <span class="chip-label">Institution:</span>
+                <span class="chip-val" id="about-college-display">MMMUT, Gorakhpur</span>
+              </div>
+              <div class="info-chip">
+                <span class="chip-label">Specialization:</span>
+                <span class="chip-val" id="about-education-display">Computer Science &amp; Engineering</span>
+              </div>
+              <div class="info-chip">
+                <span class="chip-label">Location:</span>
+                <span class="chip-val" id="about-location-display">India</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="about-pillars-grid">
+            <div class="glass-card pillar-card">
+              <div class="pillar-icon">🎯</div>
+              <h4>Our Mission</h4>
+              <p id="about-mission-display">To write clean, human-friendly code that solves genuine problems for communities and businesses.</p>
+            </div>
+            <div class="glass-card pillar-card">
+              <div class="pillar-icon">🚀</div>
+              <h4>Our Vision</h4>
+              <p id="about-vision-display">To build reliable, scalable software that thrives at the intersection of AI, Cloud, and web technologies.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS SECTION -->
+    <section class="section" id="skills">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">// ARSENAL &amp; STACK</span>
+          <h2 class="section-title">Skills &amp; Technologies</h2>
+          <p class="section-subtitle">Modern technologies we rely on to craft reliable software.</p>
+        </div>
+        <div class="skills-category-grid" id="skills-container">
+          <!-- Dynamically populated by app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS SECTION -->
+    <section class="section" id="projects">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">// SHOWCASE &amp; BUILDS</span>
+          <h2 class="section-title">Featured Projects</h2>
+          <p class="section-subtitle">Real-world systems, hackathon winners, and intelligent applications.</p>
+        </div>
+        <div class="projects-grid" id="projects-container">
+          <!-- Dynamically populated by app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- TEAM SECTION -->
+    <section class="section" id="team">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">// MINDS BEHIND NEXUS</span>
+          <h2 class="section-title">Meet The Engineers</h2>
+          <p class="section-subtitle">Collaborative innovators dedicated to clean code and breakthrough design.</p>
+        </div>
+        <div class="team-grid" id="team-container">
+          <!-- Dynamically populated by app.js with Abhishek, Ayushman, Shivam, Prasun -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ACHIEVEMENTS SECTION -->
+    <section class="section" id="achievements">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">// MILESTONES &amp; HONORS</span>
+          <h2 class="section-title">Hackathons &amp; Recognition</h2>
+          <p class="section-subtitle">Proven track record under pressure, evaluated by industry leaders.</p>
+        </div>
+        <div class="achievements-grid" id="achievements-container">
+          <!-- Dynamically populated by app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">// REACH OUT</span>
+          <h2 class="section-title">Let's Connect</h2>
+          <p class="section-subtitle">Have an opportunity, proposal, or hackathon collaboration in mind? Drop us a line.</p>
+        </div>
+
+        <div class="contact-wrapper glass-card">
+          <div class="contact-info-panel">
+            <h3>Direct Communication</h3>
+            <p>Our inbox is always open. Whether you want to discuss technology, invite us to collaborate, or review our project builds.</p>
+            <div class="contact-detail-items">
+              <div class="contact-item">
+                <span class="item-icon">📧</span>
+                <div>
+                  <label>Official Email</label>
+                  <p id="contact-email-display">nexus.team@mmmut.ac.in</p>
+                </div>
+              </div>
+              <div class="contact-item">
+                <span class="item-icon">📍</span>
+                <div>
+                  <label>Campus Base</label>
+                  <p id="contact-address-display">MMMUT Gorakhpur, UP, India</p>
+                </div>
+              </div>
+            </div>
+            <div class="social-pills" id="contact-social-links">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <form id="public-contact-form" class="contact-form">
+            <div class="form-group">
+              <label for="contact-name">Your Full Name</label>
+              <input type="text" id="contact-name" class="cyber-input" placeholder="e.g. John Doe" required />
+            </div>
+            <div class="form-group">
+              <label for="contact-sender-email">Email Address</label>
+              <input type="email" id="contact-sender-email" class="cyber-input" placeholder="e.g. john@example.com" required />
+            </div>
+            <div class="form-group">
+              <label for="contact-msg">Message</label>
+              <textarea id="contact-msg" rows="4" class="cyber-input" placeholder="Write your message here..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary-cyan w-full" id="contact-submit-btn">
+              <span>Send Message</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </button>
+            <p id="contact-status-msg" class="status-msg"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <span class="logo-glyph">&lt;N/&gt;</span>
+        <span id="footer-brand-title">NEXUS TEAM PORTFOLIO</span>
+        <p id="footer-custom-text">Built for MMMUT Prompt 2 Pixel Hackathon (PS 03). Fully Owner-Controlled.</p>
+      </div>
+      <div class="footer-links">
+        <a href="#hero">Top</a>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#team">Team</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="footer-copy">
+        &copy; <span id="current-year">2026</span> <span id="footer-owner-name">Team NEXUS</span>. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- ======================================================== -->
+  <!-- MODAL 1: TEAM CV / RESUME MODAL (VIEW, EDIT & DOWNLOAD)  -->
+  <!-- ======================================================== -->
+  <div id="cv-modal" class="modal-backdrop">
+    <div class="modal-container cv-modal-box glass-card">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-tag">DOCUMENT // OFFICIAL TEAM PROFILE</span>
+          <h3 id="cv-modal-heading">Consolidated Team Curriculum Vitae</h3>
+        </div>
+        <button class="modal-close" id="close-cv-modal">&times;</button>
+      </div>
+      <div class="modal-body cv-body" id="cv-print-area">
+        <div class="cv-header-banner">
+          <h2 id="cv-team-name">TEAM NEXUS</h2>
+          <p id="cv-subline">Full-Stack Engineering &amp; AI Innovations | MMMUT</p>
+        </div>
+        <div class="cv-content-block">
+          <h4>Team Overview &amp; Competencies</h4>
+          <div id="cv-main-text" class="cv-render-area">
+            <!-- Dynamically populated or edited -->
+          </div>
+        </div>
+        <div class="cv-content-block">
+          <h4>Core Members</h4>
+          <div id="cv-members-summary" class="cv-members-list">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="download-cv-btn" class="btn btn-primary-cyan">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          Download / Print CV
+        </button>
+        <button class="btn btn-outline-purple" id="dismiss-cv-modal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL 2: OWNER LOGIN MODAL                               -->
+  <!-- ======================================================== -->
+  <div id="login-modal" class="modal-backdrop">
+    <div class="modal-container login-box glass-card">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-tag">RESTRICTED // VERIFIED OWNER ACCESS</span>
+          <h3>Owner Administration Login</h3>
+        </div>
+        <button class="modal-close" id="close-login-modal">&times;</button>
+      </div>
+      <form id="owner-login-form" class="modal-body">
+        <div class="info-alert">
+          <p><strong>Security Notice:</strong> In this client-side hackathon build, authentication uses SHA-256 password hashing. Default Password is <code>admin123</code> (Changeable in the dashboard).</p>
+        </div>
+        <div class="form-group">
+          <label for="login-password">Enter Master Owner Password</label>
+          <input type="password" id="login-password" class="cyber-input" placeholder="••••••••" required autocomplete="current-password" />
+        </div>
+        <button type="submit" class="btn btn-primary-cyan w-full">Authenticate &amp; Open Dashboard</button>
+        <p id="login-error-msg" class="status-msg error"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL 3: OWNER ADMIN DASHBOARD (COMPLETE CONTROL SUITE)  -->
+  <!-- ======================================================== -->
+  <div id="admin-dashboard-modal" class="modal-backdrop admin-modal-backdrop">
+    <div class="admin-dashboard-shell glass-card">
+      <header class="admin-topbar">
+        <div class="admin-brand">
+          <span class="logo-glyph">&lt;O/&gt;</span>
+          <div>
+            <h3>NEXUS Command Center</h3>
+            <span class="sub-status"><span class="green-dot"></span> Owner Authenticated</span>
+          </div>
+        </div>
+        <div class="admin-topbar-actions">
+          <button id="admin-export-btn" class="btn btn-outline-cyan btn-sm">Export Data (JSON)</button>
+          <button id="admin-import-trigger" class="btn btn-outline-purple btn-sm">Import Data</button>
+          <input type="file" id="admin-import-file" accept=".json" style="display:none;" />
+          <button id="admin-reset-btn" class="btn btn-outline-red btn-sm">Reset to Default</button>
+          <button id="admin-logout-btn" class="btn btn-glow-purple btn-sm">Lock &amp; Logout</button>
+        </div>
+      </header>
+
+      <div class="admin-body-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="admin-sidebar">
+          <nav class="admin-nav">
+            <button class="admin-tab-btn active" data-tab="tab-overview">📊 Live Stats</button>
+            <button class="admin-tab-btn" data-tab="tab-profile">👤 Personal &amp; Hero</button>
+            <button class="admin-tab-btn" data-tab="tab-team">👥 Team Management</button>
+            <button class="admin-tab-btn" data-tab="tab-projects">💻 Projects Management</button>
+            <button class="admin-tab-btn" data-tab="tab-skills">⚡ Skills &amp; Tech</button>
+            <button class="admin-tab-btn" data-tab="tab-achievements">🏆 Achievements</button>
+            <button class="admin-tab-btn" data-tab="tab-team-cv">📄 Team CV Editor</button>
+            <button class="admin-tab-btn" data-tab="tab-appearance">🎨 Appearance &amp; Branding</button>
+            <button class="admin-tab-btn" data-tab="tab-security">🔒 Security Settings</button>
+          </nav>
+        </aside>
+
+        <!-- Main Tab Content Area -->
+        <main class="admin-content-viewport">
+
+          <!-- TAB 1: OVERVIEW -->
+          <div class="admin-tab-pane active" id="tab-overview">
+            <h4 class="pane-title">Website Status &amp; Real-Time Statistics</h4>
+            <div class="stat-cards-grid">
+              <div class="stat-card glass-card">
+                <span class="stat-title">Team Members</span>
+                <span class="stat-value" id="stat-count-team">0</span>
+              </div>
+              <div class="stat-card glass-card">
+                <span class="stat-title">Active Projects</span>
+                <span class="stat-value" id="stat-count-projects">0</span>
+              </div>
+              <div class="stat-card glass-card">
+                <span class="stat-title">Total Skills</span>
+                <span class="stat-value" id="stat-count-skills">0</span>
+              </div>
+              <div class="stat-card glass-card">
+                <span class="stat-title">Achievements</span>
+                <span class="stat-value" id="stat-count-achievements">0</span>
+              </div>
+            </div>
+            <div class="info-alert mt-4">
+              <p>💡 <strong>Owner Guide:</strong> Any change you make inside this dashboard is immediately stored in your local browser database and live-rendered. Use the <em>"Export Data"</em> button at the top to save backup files you can share or import on any machine.</p>
+            </div>
+          </div>
+
+          <!-- TAB 2: PERSONAL & HERO PROFILE -->
+          <div class="admin-tab-pane" id="tab-profile">
+            <h4 class="pane-title">Personal Profile &amp; Hero Banner</h4>
+            <form id="admin-profile-form">
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label>Displayed Owner / Team Name</label>
+                  <input type="text" id="edit-profile-name" class="cyber-input" required />
+                </div>
+                <div class="form-group">
+                  <label>Professional Title</label>
+                  <input type="text" id="edit-profile-title" class="cyber-input" required />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Hero Photo / Avatar (Upload from Gallery or enter URL)</label>
+                <div class="image-upload-control">
+                  <input type="file" id="edit-hero-avatar-file" accept="image/*" class="cyber-file-input" />
+                  <input type="text" id="edit-hero-avatar-url" placeholder="Or enter direct image URL" class="cyber-input" />
+                </div>
+                <div class="img-preview-box">
+                  <img id="edit-hero-avatar-preview" src="" alt="Avatar Preview" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Hero Short Introduction</label>
+                <textarea id="edit-profile-intro" rows="2" class="cyber-input" required></textarea>
+              </div>
+
+              <div class="form-group">
+                <label>Full Biography (Simple English)</label>
+                <textarea id="edit-profile-bio" rows="4" class="cyber-input" required></textarea>
+              </div>
+
+              <div class="form-row-3">
+                <div class="form-group">
+                  <label>College / Institution</label>
+                  <input type="text" id="edit-profile-college" class="cyber-input" />
+                </div>
+                <div class="form-group">
+                  <label>Education / Degree</label>
+                  <input type="text" id="edit-profile-education" class="cyber-input" />
+                </div>
+                <div class="form-group">
+                  <label>Location</label>
+                  <input type="text" id="edit-profile-location" class="cyber-input" />
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label>Official Email</label>
+                  <input type="email" id="edit-profile-email" class="cyber-input" />
+                </div>
+                <div class="form-group">
+                  <label>GitHub Profile Link</label>
+                  <input type="url" id="edit-profile-github" class="cyber-input" />
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label>LinkedIn Profile Link</label>
+                  <input type="url" id="edit-profile-linkedin" class="cyber-input" />
+                </div>
+                <div class="form-group">
+                  <label>Instagram / Twitter Link</label>
+                  <input type="url" id="edit-profile-other" class="cyber-input" />
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary-cyan mt-3">Save Profile Information</button>
+            </form>
+          </div>
+
+          <!-- TAB 3: TEAM MANAGEMENT -->
+          <div class="admin-tab-pane" id="tab-team">
+            <div class="pane-header-action">
+              <h4 class="pane-title">Team Roster (Abhishek, Ayushman, Shivam, Prasun, etc.)</h4>
+              <button class="btn btn-primary-cyan btn-sm" id="btn-add-team-member">+ Add New Member</button>
+            </div>
+            <div class="admin-crud-list" id="admin-team-list">
+              <!-- Dynamically populated -->
+            </div>
+
+            <!-- Member Add/Edit Drawer or Form -->
+            <div id="member-editor-card" class="editor-subcard glass-card hidden">
+              <h5 id="member-editor-title">Add/Edit Member</h5>
+              <form id="member-editor-form">
+                <input type="hidden" id="mem-edit-id" />
+                <div class="form-row-2">
+                  <div class="form-group">
+                    <label>Member Name</label>
+                    <input type="text" id="mem-name" class="cyber-input" required />
+                  </div>
+                  <div class="form-group">
+                    <label>Role</label>
+                    <input type="text" id="mem-role" class="cyber-input" placeholder="e.g. Full-Stack Lead" required />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Member Photo (Gallery upload or URL)</label>
+                  <div class="image-upload-control">
+                    <input type="file" id="mem-photo-file" accept="image/*" class="cyber-file-input" />
+                    <input type="text" id="mem-photo-url" class="cyber-input" placeholder="Or enter image URL" />
+                  </div>
+                  <div class="img-preview-box">
+                    <img id="mem-photo-preview" src="" alt="Member Preview" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Biography / Focus Area</label>
+                  <textarea id="mem-bio" rows="2" class="cyber-input" required></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label>Skills (Comma-separated)</label>
+                  <input type="text" id="mem-skills" class="cyber-input" placeholder="React, Node.js, Cloud, Docker" />
+                </div>
+
+                <div class="form-row-2">
+                  <div class="form-group">
+                    <label>GitHub URL</label>
+                    <input type="url" id="mem-github" class="cyber-input" />
+                  </div>
+                  <div class="form-group">
+                    <label>LinkedIn URL</label>
+                    <input type="url" id="mem-linkedin" class="cyber-input" />
+                  </div>
+                </div>
+
+                <div class="form-actions-row">
+                  <button type="submit" class="btn btn-primary-cyan">Save Member</button>
+                  <button type="button" class="btn btn-outline-purple" id="cancel-member-edit">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- TAB 4: PROJECTS MANAGEMENT -->
+          <div class="admin-tab-pane" id="tab-projects">
+            <div class="pane-header-action">
+              <h4 class="pane-title">Project Portfolio</h4>
+              <button class="btn btn-primary-cyan btn-sm" id="btn-add-project">+ Add Project</button>
+            </div>
+            <div class="admin-crud-list" id="admin-projects-list">
+              <!-- Dynamically populated -->
+            </div>
+
+            <!-- Project Editor Subcard -->
+            <div id="project-editor-card" class="editor-subcard glass-card hidden">
+              <h5 id="project-editor-title">Add/Edit Project</h5>
+              <form id="project-editor-form">
+                <input type="hidden" id="proj-edit-id" />
+                <div class="form-row-2">
+                  <div class="form-group">
+                    <label>Project Title</label>
+                    <input type="text" id="proj-title" class="cyber-input" required />
+                  </div>
+                  <div class="form-group">
+                    <label>Technologies Used (Comma-separated)</label>
+                    <input type="text" id="proj-tech" class="cyber-input" placeholder="React, Cloud, ChatGPT API, Python" required />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Project Thumbnail (Upload image or URL)</label>
+                  <div class="image-upload-control">
+                    <input type="file" id="proj-photo-file" accept="image/*" class="cyber-file-input" />
+                    <input type="text" id="proj-photo-url" class="cyber-input" placeholder="Or enter image URL" />
+                  </div>
+                  <div class="img-preview-box">
+                    <img id="proj-photo-preview" src="" alt="Project Preview" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Description</label>
+                  <textarea id="proj-desc" rows="3" class="cyber-input" required></textarea>
+                </div>
+
+                <div class="form-row-2">
+                  <div class="form-group">
+                    <label>GitHub Repository URL</label>
+                    <input type="url" id="proj-github" class="cyber-input" />
+                  </div>
+                  <div class="form-group">
+                    <label>Live Demo URL</label>
+                    <input type="url" id="proj-demo" class="cyber-input" />
+                  </div>
+                </div>
+
+                <div class="form-actions-row">
+                  <button type="submit" class="btn btn-primary-cyan">Save Project</button>
+                  <button type="button" class="btn btn-outline-purple" id="cancel-project-edit">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- TAB 5: SKILLS MANAGEMENT -->
+          <div class="admin-tab-pane" id="tab-skills">
+            <div class="pane-header-action">
+              <h4 class="pane-title">Skills &amp; Technologies (Includes Cloud, AntiGravity, ChatGPT)</h4>
+              <button class="btn btn-primary-cyan btn-sm" id="btn-add-skill">+ Add New Skill</button>
+            </div>
+            <div class="admin-crud-list" id="admin-skills-list">
+              <!-- Dynamically populated -->
+            </div>
+
+            <div id="skill-editor-card" class="editor-subcard glass-card hidden">
+              <h5>Add/Edit Skill</h5>
+              <form id="skill-editor-form">
+                <input type="hidden" id="skill-edit-id" />
+                <div class="form-row-3">
+                  <div class="form-group">
+                    <label>Skill / Tech Name</label>
+                    <input type="text" id="skill-name" class="cyber-input" placeholder="e.g. AntiGravity Computing" required />
+                  </div>
+                  <div class="form-group">
+                    <label>Category</label>
+                    <select id="skill-category" class="cyber-input">
+                      <option value="Advanced & AI">Advanced & AI</option>
+                      <option value="Cloud & Infrastructure">Cloud & Infrastructure</option>
+                      <option value="Languages & Frameworks">Languages & Frameworks</option>
+                      <option value="Tools & DevOps">Tools & DevOps</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Proficiency (%)</label>
+                    <input type="number" id="skill-proficiency" min="10" max="100" class="cyber-input" value="90" required />
+                  </div>
+                </div>
+                <div class="form-actions-row">
+                  <button type="submit" class="btn btn-primary-cyan">Save Skill</button>
+                  <button type="button" class="btn btn-outline-purple" id="cancel-skill-edit">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- TAB 6: ACHIEVEMENTS -->
+          <div class="admin-tab-pane" id="tab-achievements">
+            <div class="pane-header-action">
+              <h4 class="pane-title">Achievements &amp; Hackathon Honors</h4>
+              <button class="btn btn-primary-cyan btn-sm" id="btn-add-achievement">+ Add Achievement</button>
+            </div>
+            <div class="admin-crud-list" id="admin-achievements-list">
+              <!-- Dynamically populated with Smart India Hackathon etc. -->
+            </div>
+
+            <div id="achievement-editor-card" class="editor-subcard glass-card hidden">
+              <h5>Add/Edit Achievement</h5>
+              <form id="achievement-editor-form">
+                <input type="hidden" id="ach-edit-id" />
+                <div class="form-row-2">
+                  <div class="form-group">
+                    <label>Achievement Title</label>
+                    <input type="text" id="ach-title" class="cyber-input" placeholder="e.g. Smart India Hackathon (SIH)" required />
+                  </div>
+                  <div class="form-group">
+                    <label>Year / Milestone Date</label>
+                    <input type="text" id="ach-date" class="cyber-input" placeholder="e.g. 2024 / Grand Finalist" required />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Description &amp; Impact</label>
+                  <textarea id="ach-desc" rows="3" class="cyber-input" required></textarea>
+                </div>
+                <div class="form-actions-row">
+                  <button type="submit" class="btn btn-primary-cyan">Save Achievement</button>
+                  <button type="button" class="btn btn-outline-purple" id="cancel-achievement-edit">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- TAB 7: TEAM CV EDITOR -->
+          <div class="admin-tab-pane" id="tab-team-cv">
+            <h4 class="pane-title">Team Curriculum Vitae (CV) Content</h4>
+            <p class="section-subtitle mb-3">Visitors can view and download this when clicking "Team CV" on the home page.</p>
+            <form id="admin-team-cv-form">
+              <div class="form-group">
+                <label>Team CV Document Header</label>
+                <input type="text" id="edit-cv-heading" class="cyber-input" required />
+              </div>
+              <div class="form-group">
+                <label>Team Capability &amp; Background Text (Plain text or Markdown style)</label>
+                <textarea id="edit-cv-text" rows="8" class="cyber-input" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary-cyan">Save Team CV Content</button>
+            </form>
+          </div>
+
+          <!-- TAB 8: APPEARANCE & BRANDING -->
+          <div class="admin-tab-pane" id="tab-appearance">
+            <h4 class="pane-title">Website Appearance &amp; Styling</h4>
+            <form id="admin-appearance-form">
+              <div class="form-row-3">
+                <div class="form-group">
+                  <label>Cyan Accent Glow</label>
+                  <input type="color" id="edit-primary-color" class="cyber-color-input" value="#00f0ff" />
+                </div>
+                <div class="form-group">
+                  <label>Purple Accent Glow</label>
+                  <input type="color" id="edit-secondary-color" class="cyber-color-input" value="#8a2be2" />
+                </div>
+                <div class="form-group">
+                  <label>Dark Canvas Tint</label>
+                  <input type="color" id="edit-bg-color" class="cyber-color-input" value="#050814" />
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label>Navbar Brand Logo Text</label>
+                  <input type="text" id="edit-brand-title" class="cyber-input" />
+                </div>
+                <div class="form-group">
+                  <label>Hero Floating Badge Text</label>
+                  <input type="text" id="edit-hero-badge" class="cyber-input" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Footer Custom Text</label>
+                <input type="text" id="edit-footer-text" class="cyber-input" />
+              </div>
+
+              <button type="submit" class="btn btn-primary-cyan mt-3">Apply Branding &amp; Visual Settings</button>
+            </form>
+          </div>
+
+          <!-- TAB 9: SECURITY -->
+          <div class="admin-tab-pane" id="tab-security">
+            <h4 class="pane-title">Owner Authentication &amp; Password Settings</h4>
+            <form id="admin-security-form">
+              <div class="form-group">
+                <label>Current Password</label>
+                <input type="password" id="sec-current-pw" class="cyber-input" required />
+              </div>
+              <div class="form-group">
+                <label>New Owner Password</label>
+                <input type="password" id="sec-new-pw" class="cyber-input" minlength="6" required />
+              </div>
+              <div class="form-group">
+                <label>Confirm New Password</label>
+                <input type="password" id="sec-confirm-pw" class="cyber-input" minlength="6" required />
+              </div>
+              <button type="submit" class="btn btn-primary-cyan">Update Master Password</button>
+              <p id="sec-status-msg" class="status-msg"></p>
+            </form>
+          </div>
+
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- COMPONENT: INTERACTIVE AI ASSISTANT CHATBOT             -->
+  <!-- ======================================================== -->
+  <div class="chatbot-wrapper" id="nexus-chatbot">
+    <!-- Collapsed Toggle Button -->
+    <button class="chatbot-trigger-btn" id="chatbot-toggle-btn" aria-label="Open AI Assistant">
+      <div class="ai-sparkle">✨</div>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+      <span class="badge-unread" id="chat-unread-dot"></span>
+    </button>
+
+    <!-- Expanded Chat Window -->
+    <div class="chatbot-window glass-card hidden" id="chatbot-window">
+      <div class="chatbot-header">
+        <div class="chat-header-info">
+          <div class="ai-avatar-circle">AI</div>
+          <div>
+            <h4>NEXUS AI Bot</h4>
+            <span class="chat-status-text">Online • Hackathon Guide</span>
+          </div>
+        </div>
+        <button class="chat-close-btn" id="chatbot-close-btn">&times;</button>
+      </div>
+
+      <div class="chatbot-messages" id="chatbot-messages-container">
+        <!-- Messages appended dynamically -->
+        <div class="chat-bubble ai-msg">
+          Hello! I am the NEXUS AI Assistant. Ask me anything about our team (Abhishek, Ayushman, Shivam, Prasun), our projects, skills like Cloud &amp; ChatGPT, or Smart India Hackathon achievements!
+        </div>
+      </div>
+
+      <div class="chat-quick-chips">
+        <button class="chip-query" data-query="Who are the team members?">Team Roster</button>
+        <button class="chip-query" data-query="What skills do you have?">Skills &amp; Cloud</button>
+        <button class="chip-query" data-query="Tell me about Smart India Hackathon">SIH Achievement</button>
+        <button class="chip-query" data-query="How to contact the team?">Contact Info</button>
+      </div>
+
+      <form id="chatbot-input-form" class="chatbot-input-bar">
+        <input type="text" id="chatbot-query-input" placeholder="Type your query..." autocomplete="off" required />
+        <button type="submit" class="chat-send-btn" aria-label="Send message">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
+```
